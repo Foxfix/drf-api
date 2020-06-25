@@ -14,7 +14,9 @@ pipeline {
         stage("Check docker image") {
             steps {
                 echo "=====run tests and check lint======="
+                dir(app){
                 sh -c "python manage.py test && flake8"
+                }
             }
         }
     }
