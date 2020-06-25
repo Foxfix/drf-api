@@ -6,6 +6,9 @@ pipeline {
     agent {
         label 'master'
         }
+    triggers {
+        pollSCV('* * * * *')
+    }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
@@ -14,7 +17,7 @@ pipeline {
         stage("docker image") {
             steps {
                 echo "=====start build======="
-                sh 'docker build .'
+                sh 'docker build -t drfapi:latest .'
             }
         }
     }
