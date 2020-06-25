@@ -14,6 +14,12 @@ pipeline {
         stage("docker image") {
             steps {
                 echo "=====start build======="
+                sh 'docker build .'
+            }
+        }
+        stage("test lint") {
+            steps {
+                echo "=====test lint======="
                 dir('app') {
                     sh 'python manage.py test && flake8'
                 }
