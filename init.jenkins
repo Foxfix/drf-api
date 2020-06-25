@@ -15,9 +15,11 @@ pipeline {
             steps {
                 echo "=====start build======="
                 dir(app) {
-                    sh -c "python manage.py test && flake8"
+                    sh 'python manage.py test && flake8'
                 }
             }
         }
     }
 }
+}
+
