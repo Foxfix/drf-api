@@ -14,7 +14,7 @@ pipeline {
         stage("docker image") {
             steps {
                 echo "=====start build======="
-                dir(app) {
+                dir('app') {
                     sh 'python manage.py test && flake8'
                 }
             }
