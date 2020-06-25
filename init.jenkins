@@ -11,10 +11,10 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("Check docker image") {
+        stage("docker image") {
             steps {
-                echo "=====run tests and check lint======="
-                dir(app){
+                echo "=====start build======="
+                dir(app) {
                     sh -c "python manage.py test && flake8"
                 }
             }
