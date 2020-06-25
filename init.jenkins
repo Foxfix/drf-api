@@ -17,14 +17,6 @@ pipeline {
                 sh 'docker build .'
             }
         }
-        stage("test lint") {
-            steps {
-                echo "=====test lint======="
-                dir('app') {
-                    sh 'python manage.py test && flake8'
-                }
-            }
-        }
     }
 }
 
