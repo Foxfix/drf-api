@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo "=====run tests and check lint======="
                 dir(app){
-                sh -c "python manage.py test && flake8"
+                    sh -c "python manage.py test && flake8"
                 }
             }
         }
