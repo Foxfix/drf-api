@@ -30,6 +30,7 @@ pipeline {
             sh 'docker run --name test drfapi:latest '
             sh 'docker ps'
             sh 'docker exec -d test sh -c "source env/bin/activate && python manage.py test"'
+            sh 'docker stop test && docker rm test'
            }
         }
     }
