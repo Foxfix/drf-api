@@ -29,7 +29,7 @@ pipeline {
             echo '======run container make tests======='
             sh 'docker run --name test drfapi:latest '
             sh 'docker ps'
-            sh 'docker exec -ti test sh -c "source env/bin/activate && python manage.py test"'
+            sh 'docker exec -d test sh -c "source env/bin/activate && python manage.py test"'
            }
         }
     }
