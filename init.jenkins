@@ -28,11 +28,9 @@ pipeline {
            steps {
             echo '======run container make tests======='
             sh 'docker run --name test drfapi:latest '
-            sh 'docker exec -it test source env/bin/activate && python manage.py test'
-            sh 'docker stop test && docker rm test'
+            sh 'docker ps'
+            sh 'docker exec -ti test sh -c "source env/bin/activate && python manage.py test"'
            }
         }
     }
 }
-
-
