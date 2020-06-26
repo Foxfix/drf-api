@@ -25,12 +25,9 @@ pipeline {
            }
         }
         stage('Run tests') {
-           steps_first {
-            echo '======run container======='
+           steps {
+            echo '======run container make tests======='
             sh 'docker run --rm drfapi:latest '
-           }
-           steps_second {
-            echo '======run tests======='
             sh 'docker exec -it drfapi:latest source env/bin/activate && python manage.py test'
            }
         }
