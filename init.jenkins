@@ -21,13 +21,7 @@ pipeline {
         stage('Check Lint') {
            steps {
             echo '======run flake8======='
-            sh "docker run --rm drfapi:latest flake8"
-           }
-        }
-        stage('Run tests') {
-           steps {
-            echo '======run tests======='
-            dir('app') { sh 'python manage.py test' }
+            sh "docker run --rm drfapi:latest flake8 && python manage.py test"
            }
         }
     }
