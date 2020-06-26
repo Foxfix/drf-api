@@ -18,6 +18,12 @@ pipeline {
                 sh 'docker build -t drfapi:latest .'
             }
         }
+        stage('Check Lint') {
+           steps {
+            echo '======run flake8======='
+            sh "docker run --rm drfapi:latest flake8"
+           }
+  }
     }
 }
 
