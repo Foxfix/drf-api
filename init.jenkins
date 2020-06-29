@@ -1,34 +1,12 @@
-#!groovy
-// Check ub1 properties
-properties([disableConcurrentBuilds()])
-
-pipeline {
-    agent {
-        label 'master'
-        }
-    triggers { pollSCM('* * * * *') }
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
-        timestamps()
+node {
+    stage('SCM Checkout') {
+        git 'https://github.com/Foxfix/drf-api'
     }
-    stages {
-        stage("docker image") {
-            steps {
-                echo "=====start build======="
-                sh 'docker build -t drfapi:latest .'
-            }
-        }
-        stage('Check Lint') {
-           steps {
-            echo '======run flake8======='
-            sh "docker run --rm drfapi:latest flake8"
-           }
-        }
-        stage('Run tests') {
-           steps {
-            echo '======run container make tests======='
-            sh 'docker run -d --rm --name test drfapi:latest test sh -c "source env/bin/activate && python manage.py test"'
-           }
+    stage('Build image') {
+        def myImage = docker.build("my-image:latest")
+
+        myImage.inside {
+            sh 'make test'
         }
     }
 }
