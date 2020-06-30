@@ -3,10 +3,10 @@ node {
         git 'https://github.com/Foxfix/drf-api'
     }
     stage('Build image') {
-        def myImage = docker.build("my-image:latest")
+        def myImage = docker.build("my-image:latest", ".")
 
         myImage.inside {
-            sh 'source env/bin/activate && python manage.py test'
+            echo '========='
         }
     }
 }
