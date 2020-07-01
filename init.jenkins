@@ -1,6 +1,6 @@
 node {
     stage('SCM Checkout') {
-        git 'https://github.com/Foxfix/drf-api'
+        git credentialsId: 'django-server', url: 'https://github.com/Foxfix/drf-api'
     }
     stage('Build image') {
         def myImage = docker.build("my-image:latest")
