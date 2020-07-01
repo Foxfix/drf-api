@@ -6,7 +6,7 @@ node {
         def myImage = docker.build("my-image:latest")
 
         myImage.inside {
-            sh 'pwd'
+            sh 'docker ps -a'
         }
     }
 }
