@@ -1,18 +1,33 @@
-node {
-    stage('SCM Checkout') {
-        git 'https://github.com/Foxfix/drf-api'
-    }
-    stage('Build image') {
-        def myImage = docker.build("my-image:latest")
+#!groovy
+properties([disableConcurrentBuilds()])
 
-        myImage.inside {
-           withCredentials([usernamePassword(credentialsId: 'git-pwd3', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                sh("""
-                git config --global credential.username {GIT_USERNAME}
-                git config --global credential.helper "!echo password={GITPASSWORD}; echo"
-                """)
+pipeline {
+    agent {
+        label 'master'
+        }
+    triggers { pollSCM('* * * * *') }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("docker image") {
+            steps {
+                echo "=====start build======="
+                sh 'docker build -t drfapi:latest .'
+            }
+        }
+        stage('Check Lint') {
+           steps {
+            echo '======run flake8======='
+            sh "docker run --rm drfapi:latest flake8"
            }
-           sh 'pwd'
-       }
+        }
+        stage('Run tests') {
+           steps {
+            echo '======run tests======='
+            sh 'docker run -d --rm --name test drfapi:latest test sh -c "source env/bin/activate && python manage.py test"'
+           }
+        }
     }
 }
