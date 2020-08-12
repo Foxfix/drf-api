@@ -25,4 +25,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
 
-
+# Create your models here.
+def add(a, b):
+    return a+b
